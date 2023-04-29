@@ -7,9 +7,11 @@ import limited.stocktrader.stock.StockOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -23,18 +25,19 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/details", method = RequestMethod.GET)
-    public Customer getCustomerDetails() {
-        return customerRepository.findAll().get(0);
+    public Customer getCustomerDetails(@RequestParam long userId) {
+        Optional<Customer> customer = customerRepository.findById(userId);
+        return customer.orElse(null);
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
-    public List<StockOrder> getCustomerOrders() {
-        return customerRepository.findAll().get(0).getStockOrders();
+    public List<StockOrder> getCustomerOrders(@RequestParam long userId) {
+        return customerRepository.findById(userId).map(Customer::getStockOrders).orElse(null);
     }
 
     @RequestMapping(value = "/portfolio", method = RequestMethod.GET)
-    public List<PortfolioItem> getCustomerPortfolio() {
-        return customerRepository.findAll().get(0).getPortfolio();
+    public List<PortfolioItem> getCustomerPortfolio(@RequestParam long userId) {
+        return customerRepository.findById(userId).map(Customer::getPortfolio).orElse(null);
     }
 
     // other methods as needed

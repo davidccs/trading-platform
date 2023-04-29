@@ -1,12 +1,9 @@
 package limited.stocktrader.customer;
 
-import limited.stocktrader.stock.Stock;
 import limited.stocktrader.stock.StockOrder;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,6 +34,14 @@ public class Customer {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public List<PortfolioItem> getPortfolio() {
