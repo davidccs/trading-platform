@@ -24,6 +24,8 @@ public class StockOrder {
 
     private BigDecimal orderPrice;
 
+    private BigDecimal salePrice;
+
     private LocalDateTime createdDate;
 
     public StockOrder() {}
@@ -47,6 +49,9 @@ public class StockOrder {
         return orderPrice;
     }
 
+    public BigDecimal getSalePrice() {
+        return salePrice;
+    }
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -81,6 +86,11 @@ public class StockOrder {
 
         public Builder price(BigDecimal price) {
             order.orderPrice = price;
+            return this;
+        }
+
+        public Builder salePrice(BigDecimal salePrice){
+            order.salePrice = salePrice;
             return this;
         }
 

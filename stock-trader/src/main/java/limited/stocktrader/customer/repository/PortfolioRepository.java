@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface PortfolioRepository extends JpaRepository<PortfolioItem, Long> {
-    List<PortfolioItem> findByStock(Stock stock);
+    PortfolioItem findByStock(Stock stock);
 
 }

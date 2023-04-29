@@ -3,6 +3,7 @@ package limited.stocktrader.customer;
 import limited.stocktrader.stock.Stock;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 public class PortfolioItem {
@@ -16,10 +17,20 @@ public class PortfolioItem {
     @ManyToOne
     private Stock stock;
 
+    private BigDecimal totalValue;
+
     private int quantity;
 
     public Stock getStock() {
         return stock;
+    }
+
+    public BigDecimal getTotalValue() {
+        return this.totalValue;
+    }
+
+    public void setTotalValue(BigDecimal totalValue) {
+        this.totalValue = totalValue;
     }
 
     public int getQuantity() {
@@ -37,14 +48,22 @@ public class PortfolioItem {
         this.stock = builder.stock;
         this.quantity = builder.quantity;
         this.customer = builder.customer;
+        this.totalValue = builder.totalValue;
     }
 
     public static class Builder {
         private Stock stock;
 
+        private BigDecimal totalValue;
+
         private Customer customer;
 
         private int quantity;
+
+        public Builder totalValue(BigDecimal totalValue) {
+            this.totalValue = totalValue;
+            return this;
+        }
 
         public Builder stock(Stock stock) {
             this.stock = stock;
