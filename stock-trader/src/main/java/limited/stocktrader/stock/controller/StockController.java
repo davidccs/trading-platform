@@ -17,20 +17,21 @@ public class StockController {
     public StockController(StockService stockService) {
         this.stockService = stockService;
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/buy", method = RequestMethod.POST)
     public void buyStock(@RequestParam String symbol, @RequestParam BigDecimal price, @RequestParam int quantity) throws Exception {
         stockService.buy(symbol, price, quantity);
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/sell", method = RequestMethod.POST)
     public void sellStock(@RequestParam String symbol, @RequestParam BigDecimal price, @RequestParam int quantity) throws Exception {
         stockService.sell(symbol, price, quantity);
     }
 
-    @RequestMapping(value = "/current", method = RequestMethod.GET)
-    public List<Stock> currentStock() {
-        return stockService.getCurrentStock();
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public List<Stock> getAllStockOnExchange() {
+        return stockService.getAllStockOnExchange();
     }
 
 }

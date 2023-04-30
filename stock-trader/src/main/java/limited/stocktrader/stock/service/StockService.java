@@ -4,6 +4,7 @@ import limited.stocktrader.customer.Customer;
 import limited.stocktrader.customer.PortfolioItem;
 import limited.stocktrader.customer.repository.CustomerRepository;
 import limited.stocktrader.customer.repository.PortfolioRepository;
+import limited.stocktrader.stock.ExecutedType;
 import limited.stocktrader.stock.OrderType;
 import limited.stocktrader.stock.Stock;
 import limited.stocktrader.stock.StockOrder;
@@ -42,19 +43,21 @@ public class StockService {
         BigDecimal stockPrice = stock.getPrice();
         Customer customer = customerRepository.findAll().get(0);
 
-        BigDecimal costBasedOnStockPriceAndQuantity = new BigDecimal(String.valueOf(stock.getPrice())).multiply(BigDecimal.valueOf(quantity));
+        BigDecimal costBasedOnStockPriceAndQuantity = new BigDecimal(String.valueOf(customerPrice)).multiply(BigDecimal.valueOf(quantity));
         if (customer.getBalance().compareTo(costBasedOnStockPriceAndQuantity) < 0) {
             throw new Exception("Customer does not have the required funds");
         }
 
-        addStockOrderForCustomer(quantity, stock, stockPrice, null, customer, OrderType.BUY);
+        StockOrder stockOrder = addStockOrderForCustomer(quantity, stock, customerPrice, null, customer, OrderType.BUY, ExecutedType.PENDING);
 
-        if (stockPrice.compareTo(customerPrice) < 0) {
+        if (stockPrice.compareTo(customerPrice) <= 0) {
             customer.setBalance(customer.getBalance().subtract(costBasedOnStockPriceAndQuantity));
             System.out.println("New customer balance is " + customer.getBalance());
             addStockToPortfolio(customer, stock, quantity);
             customerRepository.save(customer);
-        }
+
+            stockOrder.setExecuted(ExecutedType.FULFILLED);
+            stockOrderRepository.save(stockOrder);        }
     }
 
     @Transactional
@@ -73,30 +76,41 @@ public class StockService {
             throw new Exception("Customer does not have the required stock to sell: " + stock.getName());
         }
 
-        addStockOrderForCustomer(quantity, stock, stockPrice, customerPrice, customer, OrderType.SELL);
+        StockOrder stockOrder = addStockOrderForCustomer(quantity, stock, stockPrice, customerPrice, customer, OrderType.SELL, ExecutedType.PENDING);
 
         if (stock.getPrice().compareTo(customerPrice) > 0) {
             portfolioItem.setQuantity(portfolioItem.getQuantity() - quantity);
             portfolioItem.setTotalValue(portfolioItem.getTotalValue().subtract(customerPrice.multiply(new BigDecimal(quantity))));
-            portfolioRepository.save(portfolioItem);
+
+            if (portfolioItem.getQuantity() <= 0) {
+                portfolioRepository.delete(portfolioItem);
+            } else {
+                portfolioRepository.save(portfolioItem);
+            }
 
             BigDecimal newCustomerBalance = customer.getBalance().add(stock.getPrice().multiply(new BigDecimal(quantity)));
             customer.setBalance(newCustomerBalance);
             customerRepository.save(customer);
+
+            stockOrder.setExecuted(ExecutedType.FULFILLED);
+            stockOrderRepository.save(stockOrder);
         }
     }
 
 
-    private void addStockOrderForCustomer(int quantity, Stock stock, BigDecimal stockPrice, BigDecimal salePrice, Customer customer, OrderType orderType) {
+    private StockOrder addStockOrderForCustomer(int quantity, Stock stock, BigDecimal stockPrice, BigDecimal salePrice, Customer customer, OrderType orderType, ExecutedType executed) {
         StockOrder stockOrder = new StockOrder.Builder()
                 .customer(customer)
                 .stock(stock)
                 .type(orderType)
+                .executedType(executed)
                 .quantity(quantity)
                 .salePrice(salePrice)
                 .price(stockPrice)
                 .build();
         stockOrderRepository.save(stockOrder);
+
+        return stockOrder;
     }
 
     private void addStockToPortfolio(Customer customer,
@@ -122,7 +136,7 @@ public class StockService {
 
 
     @Transactional
-    public List<Stock> getCurrentStock() {
+    public List<Stock> getAllStockOnExchange() {
         return stockRepository.findAll();
     }
 

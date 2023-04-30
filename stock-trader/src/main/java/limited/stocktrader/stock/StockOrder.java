@@ -20,6 +20,8 @@ public class StockOrder {
 
     private OrderType type;
 
+    private ExecutedType executed;
+
     private int quantity;
 
     private BigDecimal orderPrice;
@@ -56,6 +58,14 @@ public class StockOrder {
         return createdDate;
     }
 
+    public ExecutedType getExecuted() {
+        return executed;
+    }
+
+    public void setExecuted(ExecutedType executed) {
+        this.executed = executed;
+    }
+
     public static class Builder {
         private final StockOrder order;
 
@@ -76,6 +86,11 @@ public class StockOrder {
 
         public Builder type(OrderType type) {
             order.type = type;
+            return this;
+        }
+
+        public Builder executedType(ExecutedType type) {
+            order.executed = type;
             return this;
         }
 

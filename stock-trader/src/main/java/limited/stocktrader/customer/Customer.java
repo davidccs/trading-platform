@@ -16,6 +16,8 @@ public class Customer {
 
     private BigDecimal balance;
 
+    private int portflioCount;
+
     @OneToMany(mappedBy = "customer")
     private List<StockOrder> stockOrdersHistory;
     @OneToMany(mappedBy = "customer")
@@ -42,6 +44,10 @@ public class Customer {
 
     public String getUsername() {
         return username;
+    }
+
+    public int getPortfolioCount() {
+        return portfolio.size();
     }
 
     public List<PortfolioItem> getPortfolio() {
