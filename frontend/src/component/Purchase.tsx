@@ -27,7 +27,6 @@ export default function SignupCard() {
 	const [quantity, setQuantity] = useState("");
 	const [orderType, setValue] = useState("BUY");
 
-	console.log("Symbol:", symbol, "Price:", price, "Quantity:", quantity);
 
 	const handleSymbolChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSymbol(event.target.value);

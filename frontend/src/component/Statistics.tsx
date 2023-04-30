@@ -33,10 +33,13 @@ function StatsCard(props: StatsCardProps) {
 	);
 }
 
+interface Portfolio {}
+
 interface Item {
 	customerId: number;
 	name: string;
 	balance: number;
+    portfolio: Portfolio[];
     portfolioCount: number;
 }
 
@@ -53,8 +56,9 @@ export default function BasicStatistics() {
 		fetchItems();
 	}, []);
     const customerInformation = Object.values(items);
-
-    var customerInvestCompanyCount = customerInformation[5] ?? 0
+    
+    const customerInvestCompanyCount = customerInformation[4] || 0;
+    
 
 	return (
 		<Box maxW="7xl" mx={"auto"} pt={5} px={{ base: 2, sm: 12, md: 17 }}>

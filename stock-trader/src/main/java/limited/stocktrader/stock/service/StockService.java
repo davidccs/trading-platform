@@ -78,7 +78,7 @@ public class StockService {
 
         StockOrder stockOrder = addStockOrderForCustomer(quantity, stock, stockPrice, customerPrice, customer, OrderType.SELL, ExecutedType.PENDING);
 
-        if (stock.getPrice().compareTo(customerPrice) > 0) {
+        if (stock.getPrice().compareTo(customerPrice) >= 0) {
             portfolioItem.setQuantity(portfolioItem.getQuantity() - quantity);
             portfolioItem.setTotalValue(portfolioItem.getTotalValue().subtract(customerPrice.multiply(new BigDecimal(quantity))));
 
