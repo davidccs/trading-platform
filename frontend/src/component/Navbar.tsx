@@ -23,17 +23,6 @@ import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
 	let navigate = useNavigate();
-
-	const routeToSignUp = () => {
-		let path = "/signup";
-		navigate(path);
-	};
-
-	const routeToLogin = () => {
-		let path = "/login";
-		navigate(path);
-	};
-
 	const { isOpen, onToggle } = useDisclosure();
 
 	return (
