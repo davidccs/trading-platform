@@ -1,7 +1,10 @@
-# trading-platform
+# Share Trading Platform
 
 <img width="1333" alt="image" src="https://user-images.githubusercontent.com/25177664/235386145-6950008a-6fd9-4813-a592-545092bae5f7.png">
 
+# Description:
+
+The platform is a stock trading platform with a set of requirements that it must fulfill. Users of the platform have the ability to place orders to buy or sell stocks. Additionally, users can view their current portfolio of stocks, as well as view a list of all orders they have placed. The platform also allows users to view a list of all executed orders, providing them with insight into how their trades have been executed
 
 # Specifications:
 
