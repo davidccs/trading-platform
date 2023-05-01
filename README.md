@@ -11,12 +11,14 @@ The platform has the following requirements:
 # Getting started:
 
 Run: yarn start within the frontned folder. Should be running on port 3000
+
 Run: backend on port 8080
 
 There should be some helper configs that are run in the backend. This should automatically load data in such as a starting balance of $10,000 and some stocks which you can purchase.
 
 You are only able to buy the stocks shown in the Stocks section of the APP. Any other Stocks will be invalid. Purchase of stock are only allowed in the Symbol form. 
 
+To deal with cors error locally the use of "@CrossOrigin(origins = "http://localhost:3000")" was required on the backend for the controller. 
 
 # Assumptions:
 - Stock prices do not change. In the real world stock prices should theoretically change. However, the set price is the price we sell and buy at.
