@@ -18,7 +18,7 @@ The platform has the following requirements:
 # Technology Stack:
 
 - Frontend:
-  - Typescript, React
+  - Typescript, React, CharkaUI
 
 - Backend:
   - Java, Spring Boot
